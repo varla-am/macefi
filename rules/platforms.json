@@ -1,0 +1,110 @@
+{
+  "_source": "Dortania OpenCore Install Guide, config-laptop.plist/*.md (checked 2026-09-19)",
+  "booter_profiles": {
+    "kbl": {},
+    "cfl": {
+      "EnableWriteUnprotector": false,
+      "RebuildAppleMemoryMap": true,
+      "SyncRuntimePermissions": true
+    },
+    "cflplus": {
+      "EnableWriteUnprotector": false,
+      "RebuildAppleMemoryMap": true,
+      "SyncRuntimePermissions": true,
+      "DevirtualiseMmio": true,
+      "ProtectUefiServices": true
+    }
+  },
+  "platforms": {
+    "skylake": {
+      "title": "Skylake (6th gen)",
+      "guide": "skylake",
+      "booter": "kbl",
+      "smbios": {"U": "MacBookPro13,1", "H": "MacBookPro13,3", "Y": "MacBook9,1"},
+      "max_macos": "monterey",
+      "igpu": {"AAPL,ig-platform-id": "00001619"},
+      "igpu_alternatives": ["00001E19"],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF"]
+    },
+    "kabylake": {
+      "title": "Kaby Lake (7th gen)",
+      "guide": "kaby-lake",
+      "booter": "kbl",
+      "smbios": {"U": "MacBookPro14,1", "H": "MacBookPro14,3", "Y": "MacBook10,1"},
+      "max_macos": "ventura",
+      "igpu": {"AAPL,ig-platform-id": "00001B59"},
+      "igpu_alternatives": ["00001659"],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF"]
+    },
+    "kabylake_r": {
+      "title": "Kaby Lake-R (8th gen U, UHD 620)",
+      "guide": "kaby-lake",
+      "booter": "kbl",
+      "smbios": {"U": "MacBookPro14,1"},
+      "max_macos": "ventura",
+      "igpu": {"AAPL,ig-platform-id": "00001B59", "device-id": "16590000"},
+      "igpu_alternatives": ["0000C087"],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF"]
+    },
+    "amberlake": {
+      "title": "Amber Lake Y (8th gen Y)",
+      "guide": "kaby-lake",
+      "booter": "kbl",
+      "smbios": {"Y": "MacBookAir8,1"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "0000C087"},
+      "igpu_alternatives": ["00001B59"],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF"]
+    },
+    "whiskeylake": {
+      "title": "Whiskey Lake (8th gen U)",
+      "guide": "coffee-lake",
+      "booter": "cfl",
+      "smbios": {"U": "MacBookPro15,2"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "00009B3E", "device-id": "9B3E0000"},
+      "igpu_alternatives": [],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF", "SSDT-AWAC"]
+    },
+    "coffeelake_h": {
+      "title": "Coffee Lake H (8th gen H)",
+      "guide": "coffee-lake",
+      "booter": "cfl",
+      "smbios": {"H": "MacBookPro15,1"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "0900A53E"},
+      "igpu_alternatives": [],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF", "SSDT-AWAC"]
+    },
+    "coffeelake_plus_h": {
+      "title": "Coffee Lake Refresh H (9th gen H)",
+      "guide": "coffee-lake-plus",
+      "booter": "cflplus",
+      "smbios": {"H": "MacBookPro16,1"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "0900A53E"},
+      "igpu_alternatives": [],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF", "SSDT-AWAC", "SSDT-PMC"]
+    },
+    "cometlake_u": {
+      "title": "Comet Lake U (10th gen U, UHD 620)",
+      "guide": "coffee-lake-plus",
+      "booter": "cflplus",
+      "smbios": {"U": "MacBookPro16,3"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "00009B3E", "device-id": "9B3E0000"},
+      "igpu_alternatives": [],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF", "SSDT-AWAC"]
+    },
+    "cometlake_h": {
+      "title": "Comet Lake H (10th gen H, UHD 630)",
+      "guide": "coffee-lake-plus",
+      "booter": "cflplus",
+      "smbios": {"H": "MacBookPro16,1"},
+      "max_macos": "sonoma",
+      "igpu": {"AAPL,ig-platform-id": "0900A53E", "device-id": "9B3E0000"},
+      "igpu_alternatives": [],
+      "ssdt": ["SSDT-PLUG-DRTNIA", "SSDT-EC-USBX-LAPTOP", "SSDT-PNLF", "SSDT-AWAC"]
+    }
+  }
+}

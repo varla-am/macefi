@@ -1,0 +1,90 @@
+{
+  "_comment": "Example Hardware Sniffer Report.json (synthetic, modelled on a ThinkPad T480). macEFI reads this format too.",
+  "Motherboard": {
+    "Name": "LENOVO 20L5A01MRT",
+    "Chipset": "Intel Kaby Lake-R",
+    "Platform": "Laptop"
+  },
+  "BIOS": {
+    "Version": "N24ET56W",
+    "Firmware Type": "UEFI",
+    "Secure Boot": "Disabled"
+  },
+  "CPU": {
+    "Manufacturer": "Intel",
+    "Processor Name": "Intel Core i5-8250U",
+    "Codename": "Kaby Lake-R",
+    "Core Count": "04",
+    "CPU Count": "01",
+    "SIMD Features": "SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, AVX, AVX2"
+  },
+  "GPU": {
+    "Intel UHD Graphics 620": {
+      "Manufacturer": "Intel",
+      "Codename": "Kaby Lake-R",
+      "Device Type": "Integrated GPU",
+      "Bus Type": "PCI",
+      "Device ID": "8086-5917"
+    }
+  },
+  "Monitor": {
+    "Generic PnP Monitor": {
+      "Connector Type": "Internal",
+      "Resolution": "1920x1080",
+      "Connected GPU": "Intel UHD Graphics 620"
+    }
+  },
+  "Network": {
+    "Intel Wireless-AC 8265": {
+      "Bus Type": "PCI",
+      "Device ID": "8086-24FD"
+    },
+    "Intel Ethernet Connection I219-V": {
+      "Bus Type": "PCI",
+      "Device ID": "8086-15D8"
+    }
+  },
+  "Sound": {
+    "Realtek ALC257": {
+      "Bus Type": "PCI",
+      "Device ID": "10EC-0257",
+      "Audio Endpoints": [
+        "Speakers",
+        "Microphone"
+      ]
+    }
+  },
+  "USB Controllers": {
+    "Intel USB 3.0 xHCI": {
+      "Bus Type": "PCI",
+      "Device ID": "8086-9D2F"
+    }
+  },
+  "Input": {
+    "Synaptics Touchpad": {
+      "Bus Type": "ACPI",
+      "Device ID": "06CB-CD5F",
+      "Device Type": "I2C"
+    },
+    "AT Translated Set 2 keyboard": {
+      "Bus Type": "ACPI",
+      "Device ID": "0001-0001",
+      "Device Type": "PS/2"
+    }
+  },
+  "Storage Controllers": {
+    "Intel NVMe Controller": {
+      "Bus Type": "PCI",
+      "Device ID": "8086-F1A6",
+      "Disk Drives": [
+        "SAMSUNG MZVLB512HAJQ-000L7"
+      ]
+    }
+  },
+  "Bluetooth": {
+    "Intel Bluetooth": {
+      "Bus Type": "USB",
+      "Device ID": "8087-0A2B"
+    }
+  }
+}

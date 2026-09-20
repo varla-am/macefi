@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "source": "manual",
+  "_comment": "Example: a typical ThinkPad P43s. Replace with `macefi detect -o hw.json` output from the real machine.",
+  "machine": {"vendor": "LENOVO", "model": "20RH0000XX", "family": "ThinkPad P43s", "form": "laptop"},
+  "cpu": {"vendor": "GenuineIntel", "name": "Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz", "family": 6, "model": 142, "stepping": 11},
+  "gpus": [
+    {"vendor": "8086", "device": "3ea0", "name": "UHD Graphics 620"},
+    {"vendor": "10de", "device": "1d33", "name": "Quadro P520"}
+  ],
+  "audio": [{"vendor_id": "0x10ec0257", "name": "Realtek ALC257", "codec": "ALC257"}],
+  "network": [
+    {"kind": "wifi", "vendor": "8086", "device": "9df0", "name": "Wireless-AC 9560"},
+    {"kind": "ethernet", "vendor": "8086", "device": "15bd", "name": "Ethernet I219-LM"}
+  ],
+  "storage": [{"name": "nvme0n1", "kind": "nvme", "model": "SAMSUNG MZVLB512HBJQ-000L7"}],
+  "input": [
+    {"kind": "ps2", "name": "AT Translated Set 2 keyboard"},
+    {"kind": "smbus", "name": "Synaptics TM3276-022"},
+    {"kind": "ps2", "name": "TPPS/2 Elan TrackPoint"}
+  ],
+  "flags": {"tsc_unstable": false}
+}

@@ -1,0 +1,17 @@
+{
+  "_note": "asset = regex matched against release asset names (DEBUG builds are always skipped)",
+  "Lilu":           {"repo": "acidanthera/Lilu",          "asset": "RELEASE", "kexts": ["Lilu.kext"]},
+  "VirtualSMC":     {"repo": "acidanthera/VirtualSMC",    "asset": "RELEASE", "kexts": ["VirtualSMC.kext", "SMCProcessor.kext", "SMCSuperIO.kext", "SMCBatteryManager.kext"]},
+  "WhateverGreen":  {"repo": "acidanthera/WhateverGreen", "asset": "RELEASE", "kexts": ["WhateverGreen.kext"]},
+  "AppleALC":       {"repo": "acidanthera/AppleALC",      "asset": "RELEASE", "kexts": ["AppleALC.kext"]},
+  "ECEnabler":      {"repo": "1Revenger1/ECEnabler",      "asset": "RELEASE", "kexts": ["ECEnabler.kext"]},
+  "BrightnessKeys": {"repo": "acidanthera/BrightnessKeys","asset": "RELEASE", "kexts": ["BrightnessKeys.kext"]},
+  "VoodooPS2":      {"repo": "acidanthera/VoodooPS2",     "asset": "RELEASE", "kexts": ["VoodooPS2Controller.kext"]},
+  "VoodooI2C":      {"repo": "VoodooI2C/VoodooI2C",       "asset": "RELEASE", "kexts": ["VoodooI2C.kext", "VoodooI2CHID.kext"]},
+  "NVMeFix":        {"repo": "acidanthera/NVMeFix",       "asset": "RELEASE", "kexts": ["NVMeFix.kext"]},
+  "CpuTscSync":     {"repo": "acidanthera/CpuTscSync",    "asset": "RELEASE", "kexts": ["CpuTscSync.kext"]},
+  "IntelMausi":     {"repo": "acidanthera/IntelMausi",    "asset": "RELEASE", "kexts": ["IntelMausi.kext"]},
+  "itlwm":          {"repo": "OpenIntelWireless/itlwm",   "asset": "^itlwm_.*\\.kext\\.zip$", "kexts": ["itlwm.kext"]},
+  "IntelBluetooth": {"repo": "OpenIntelWireless/IntelBluetoothFirmware", "asset": "^IntelBluetooth-.*\\.zip$", "kexts": ["IntelBluetoothFirmware.kext", "IntelBTPatcher.kext"]},
+  "BlueToolFixup":  {"repo": "acidanthera/BrcmPatchRAM",  "asset": "RELEASE", "kexts": ["BlueToolFixup.kext"]}
+}
