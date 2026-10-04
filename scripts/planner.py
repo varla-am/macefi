@@ -4,7 +4,9 @@ import re
 from pathlib import Path
 
 RULES = Path(__file__).resolve().parent.parent / "rules"
-MACOS = {"monterey": 12, "ventura": 13, "sonoma": 14, "sequoia": 15}
+# Apple switched to year-based numbers after Sequoia: 15 is followed by 26 (Tahoe),
+# so these are the real ProductVersion majors, not a sequence.
+MACOS = {"monterey": 12, "ventura": 13, "sonoma": 14, "sequoia": 15, "tahoe": 26}
 
 # NVMe drives macOS can't use at all (Dortania hardware limitations page)
 BAD_NVME = re.compile(r"PM981|PM991|MZVLB|MZALQ|MZVLQ|2200S", re.I)

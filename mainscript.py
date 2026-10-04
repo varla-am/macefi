@@ -86,6 +86,12 @@ def write_report(path, p, manifest, layout, candidates, check, hw_source):
              f"| Dortania guide | https://dortania.github.io/OpenCore-Install-Guide/config-laptop.plist/{p['guide']}.html |",
              "", "## Kexts", "", "| Kext | Version | Source |", "|---|---|---|"]
     lines += [f"| {k} | {v['version']} | {v['repo']} |" for k, v in manifest["kexts"].items()]
+    if manifest.get("sha256"):
+        lines += ["", "## Checksums", "",
+                  "SHA-256 of every archive this build was made from. Re-download them, compare, "
+                  "and you know the EFI wasn't built from a tampered kext.", "",
+                  "| Archive | SHA-256 |", "|---|---|"]
+        lines += [f"| {a} | `{d}` |" for a, d in sorted(manifest["sha256"].items())]
     lines += ["", "## iGPU", ""]
     lines += [f"- `{k}` = `{v}`" for k, v in p["igpu"].items()]
     if p["igpu_alternatives"]:
@@ -154,7 +160,8 @@ def cmd_build(args):
     _, kext_rules = planner.load_rules()
 
     say("OpenCore ...")
-    oc = opcoremgr.dw(args.oc_url, args.oc_version)
+    oc_info = {}
+    oc = opcoremgr.dw(args.oc_url, args.oc_version, info=oc_info)
     oc_version = opcoremgr.version(oc)
     opcoremgr.install_base(oc, efi, DRIVERS, TOOLS)
     say(f"  {oc_version}")
@@ -164,11 +171,14 @@ def cmd_build(args):
         shutil.copy2(kextmgr.fetch(SSDT_URL.format(name)), efi / "OC" / "ACPI" / f"{name}.aml")
 
     say("Kexts ...")
-    manifest = {"opencore": oc_version, "kexts": {}}
+    manifest = {"opencore": oc_version, "kexts": {}, "sha256": {}}
+    if oc_info:
+        manifest["sha256"][oc_info["asset"]] = oc_info["sha256"]
     for key in p["kexts"]:
         spec = kext_rules[key]
         got = kextmgr.dw(spec["repo"], efi / "OC" / "Kexts", spec["kexts"], spec["asset"])
         manifest["kexts"][key] = {"version": got["version"], "repo": spec["repo"], "asset": got["asset"]}
+        manifest["sha256"][got["asset"]] = got["sha256"]
         say(f"  {key:15} {got['version']}")
 
     layout, candidates = None, []

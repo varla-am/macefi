@@ -16,8 +16,11 @@ from scripts import kextmgr
 REPO = "acidanthera/OpenCorePkg"
 
 
-def dw(url=None, version="latest"):
-    """Download an OpenCore RELEASE zip and return the unpacked folder."""
+def dw(url=None, version="latest", info=None):
+    """Download an OpenCore RELEASE zip and return the unpacked folder.
+
+    `info`: optional dict, filled with the archive name and its SHA-256.
+    """
     if url is None and version != "latest":
         url = f"https://github.com/{REPO}/releases/download/{version}/OpenCore-{version}-RELEASE.zip"
     elif url is None:
@@ -26,7 +29,11 @@ def dw(url=None, version="latest"):
     elif not url.endswith(".zip"):
         raise ValueError("OpenCore ships as a release zip (OpenCore.efi, drivers, Sample.plist, "
                          "ocvalidate, macserial all come from it) - pass the OpenCore-X.Y.Z-RELEASE.zip URL")
-    root = kextmgr.extract(kextmgr.fetch(url))
+    archive = kextmgr.fetch(url)
+    if info is not None:
+        info["asset"] = archive.name
+        info["sha256"] = kextmgr.sha256(archive)
+    root = kextmgr.extract(archive)
     if not (root / "X64" / "EFI" / "OC" / "OpenCore.efi").is_file():
         raise RuntimeError(f"{url} doesn't look like an OpenCore release zip")
     return root

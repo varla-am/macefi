@@ -4,6 +4,7 @@
     kextmgr.dw("https://github.com/acidanthera/Lilu/releases/tag/1.7.2", "EFI/OC/Kexts")
     kextmgr.dw("https://github.com/.../Lilu-1.7.2-RELEASE.zip", "EFI/OC/Kexts")
 """
+import hashlib
 import json
 import os
 import plistlib
@@ -33,12 +34,26 @@ def _request(url):
     return urllib.request.Request(url, headers=headers)
 
 
-def fetch(url, dest=None):
-    """Download url once into the cache (or to dest) and return the local path."""
+def sha256(path):
+    """Hex digest of a file, read in chunks so a 200 MB zip doesn't go into memory."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def fetch(url, dest=None, expect=None):
+    """Download url once into the cache (or to dest) and return the local path.
+
+    `expect`: a SHA-256 hex digest the file has to match. A kext loads before the
+    kernel, with full privileges, so a mismatch is fatal and the file is removed.
+    """
     if dest is None:
         dest = CACHE / "dl" / re.sub(r"[^\w.-]+", "_", url.split("://", 1)[-1])
     dest = Path(dest)
     if dest.is_file() and dest.stat().st_size:
+        _verify(dest, expect, url)
         return dest
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_name(dest.name + ".part")
@@ -49,7 +64,17 @@ def fetch(url, dest=None):
         part.unlink(missing_ok=True)
         raise RuntimeError(f"download failed ({e.code}): {url}") from e
     part.replace(dest)
+    _verify(dest, expect, url)
     return dest
+
+
+def _verify(path, expect, url):
+    if expect is None:
+        return
+    got = sha256(path)
+    if got.lower() != expect.lower():
+        path.unlink(missing_ok=True)
+        raise RuntimeError(f"checksum mismatch for {url}\n  expected {expect}\n  got      {got}")
 
 
 LATEST_TTL = 6 * 3600  # re-ask GitHub what "latest" is at most every 6 hours
@@ -128,6 +153,9 @@ def _resolve(src, pattern):
         rel = gh_release(m[1], m[2] or "latest")
         return pick_asset(rel, pattern)[0], rel["tag_name"]
     if src.endswith(".zip"):
+        # Only over TLS: these archives end up in the EFI, which runs before the kernel.
+        if not src.startswith("https://"):
+            raise ValueError(f"{src!r}: kexts are only downloaded over https")
         v = re.search(r"(\d+(?:\.\d+)+)", src.rsplit("/", 1)[-1])
         return src, v[1] if v else "?"
     raise ValueError(f"don't know how to download {src!r}: expected owner/repo, a release page or a .zip URL")
@@ -161,7 +189,7 @@ def _find_kexts(root):
 def dw(src, dest, names=None, pattern="RELEASE"):
     """Download src and copy the requested kexts (default: all of them) into dest.
 
-    Returns {"version": ..., "asset": ..., "kexts": [copied paths]}.
+    Returns {"version": ..., "asset": ..., "sha256": ..., "kexts": [copied paths]}.
     """
     url, version = _resolve(src, pattern)
     archive = fetch(url)
@@ -181,7 +209,8 @@ def dw(src, dest, names=None, pattern="RELEASE"):
             shutil.rmtree(target)
         shutil.copytree(found[n], target, symlinks=True)
         copied.append(target)
-    return {"version": version.lstrip("v"), "asset": archive.name, "kexts": copied}
+    return {"version": version.lstrip("v"), "asset": archive.name,
+            "sha256": sha256(archive), "kexts": copied}
 
 
 def _info(kext):
